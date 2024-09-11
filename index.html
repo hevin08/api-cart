@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div align="center">
+        <h1>Product</h1>
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Img</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+        const getCart = async () => {
+            try {
+                let record = await fetch(`https://dummyjson.com/carts`);
+                let cart = await record.json();
+                let tbl = "";
+
+                cart.carts.forEach(cartItem => {
+                    cartItem.products.forEach(product => {
+                        tbl += `
+                            <tr>
+                                <td>${product.id}</td>
+                                <td><img src="${product.thumbnail}" width="100"></td>
+                                <td>${product.title}</td>
+                                <td>${product.quantity}</td>
+                                <td>${product.price}</td>
+                                <td>${product.total}</td>
+                            </tr>
+                        `;
+                    });
+                });
+
+                document.getElementById('tbody').innerHTML = tbl;
+            } catch (err) {
+                console.log(err);
+                return false;
+            }
+        }
+
+        getCart();
+    </script>
+</body>
+</html>
